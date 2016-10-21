@@ -7,16 +7,20 @@
 	    body {
 	    	text-align: center;
 	    }
+	    #canvas {
+	    	border: 1px solid;
+	    }
     </style>
 </head> 
 <body> 
 	<canvas id='canvas'></canvas>
+	<p id="lbl"></p>
 <script> 
     var canvas = document.getElementById("canvas");
     ctx = canvas.getContext('2d');
     
     var width = 1000;
-    var height = 600;
+    var height = 650;
     canvas.width = width;
     canvas.height = height;
     
@@ -33,12 +37,11 @@
     var antWidth = 10;
     var x = width / 2;
     var y = height / 2;
-    var interval = 100; //ms
+    var interval = 1000; //ms
     var direction = UP;
     
     setInterval(function(){
         if(array[x][y] === 0){
-            /* Turn 90° right */
             if(direction == UP){
                 direction = RIGHT;
             }
@@ -53,7 +56,6 @@
             }
         }
         else {
-            /* Turn 90° left */
             if(direction == UP){
                 direction = LEFT;
             }
@@ -95,20 +97,24 @@
         ctx.fillRect(x, y + antWidth, antWidth, antWidth);
 
         if(direction == RIGHT){
-           	ctx.fillStyle="#B71C1C";
+           	ctx.fillStyle="#B71C1F";
         	ctx.fillRect(x + antWidth, y + antWidth, -antWidth/3, antWidth);
+        	document.getElementById('lbl').innerHTML = "RIGHT";
         }
         else if(direction == UP){
-            ctx.fillStyle="#B71C1C";
+            ctx.fillStyle="#B71C1F";
         	ctx.fillRect(x, y + antWidth + antWidth, antWidth, -antWidth/3);
+        	document.getElementById('lbl').innerHTML = "DOWN";
         }
         else if(direction == LEFT){
-           	ctx.fillStyle="#B71C1C";
+           	ctx.fillStyle="#B71C1F";
         	ctx.fillRect(x, y + antWidth, antWidth/3, antWidth);
+        	document.getElementById('lbl').innerHTML = "LEFT";
         }
         else{
-            ctx.fillStyle="#B71C1C";
+            ctx.fillStyle="#B71C1F";
         	ctx.fillRect(x, y + antWidth, antWidth, antWidth/3);
+        	document.getElementById('lbl').innerHTML = "UP";
         }        
         
     }, interval)
