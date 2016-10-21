@@ -1,56 +1,108 @@
-<!DOCTYPE html>
-<html lang="es">
-	<head>
-		<meta charset="utf-8">
-		<title>Langton´s Ant</title>		
-	</head>
-	<body>
-		<canvas height="500px" width="500px" id="canvas">
-		<script type="text/javascript">
-			var requestAnimationFrame = window.requestAnimationFrame || 
-			                            window.mozRequestAnimationFrame || 
-			                            window.webkitRequestAnimationFrame || 
-			                            window.msRequestAnimationFrame;
+<!doctype html> 
+<html> 
+<head> 
+<title>Langton´s Ant</title> 
+    <meta charset='utf-8' /> 
+    <style type="text/css">
+    	#canvas {
+    		border: 1px solid black;
+    	}
+    </style>
+</head> 
+<body> 
+	<canvas height='500' width='800' id='canvas'></canvas>
+	<input id="slider" type="range" min="0" max="1000" step="10" />
+<script> 
+    var canvas = document.getElementById("canvas");
+    ctx = canvas.getContext('2d');
+    
+    var width = 800;
+    var height = 500;
+    
+    var array = new Array(width);
 
-			var canvas = document.getElementById("canvas");
-			var ctx = canvas.getContext("2d");
-			var posX = 10;		
+    for (var i = 0; i < width; i++) {
+        array[i] = new Array(width);
+    }
+    
+    var RIGHT = "right";
+    var LEFT = "left";
+    var UP = "up";
+    var DOWN = "down";
+    
+    var antWidth = 5;
+    var x = width / 2;
+    var y = height / 2;
+    var interval = 500; //ms
+    var direction = UP;
+    
+    setInterval(function(){
 
-			setTimeout(move, 500);
-			
-			function moveAnt() {
-				posX = posX + 10;
-				
-				antPos(posX, 10);				
-			}
+    	interval = document.getElementById('slider').value;
 
-			function drawAnt(x, y) {
-				ctx.rect(x, y, 10, 10);
-				ctx.fill();
-			}
+        if(array[x][y] === 0){
+            /* White square, turn 90° right */
+            if(direction == UP){
+                direction = RIGHT;
+            }
+            else if(direction == LEFT){
+                direction = UP;
+            }
+            else if(direction == DOWN){
+                direction = LEFT;
+            }
+            else{
+                direction = DOWN;
+            }
+        }
+        else {
+            /* Coloured square, turn 90° left */
+            if(direction == UP){
+                direction = LEFT;
+            }
+            else if(direction == LEFT){
+                direction = DOWN;
+            }
+            else if(direction == DOWN){
+                direction = RIGHT;
+            }
+            else{
+                direction = UP;
+            }
+        }        
 
-			function drawGrid() {
-				for (var x = 0; x <= 500; x = x + 10){
-				  ctx.moveTo(x,0);
-				  ctx.lineTo(x,500);
-				}
+        if(array[x][y] === 0){
+            ctx.fillStyle = "#2f2f2f";
+            ctx.fillRect(x, y + antWidth, antWidth, antWidth);
 
-				for (var y = 0; y <= 500; y = y + 10){
-				  ctx.moveTo(0,y);
-				  ctx.lineTo(500,y);
-				}
+            array[x][y] = 1;
+        }
+        else{
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(x, y + antWidth, antWidth, antWidth);
 
-				ctx.strokeStyle = "#000000";
-				ctx.stroke();
-			}
+            array[x][y] = 0;
+        }
+        
+        if(direction == RIGHT){
+            x += antWidth;
+        }
+        else if(direction == UP){
+            y += antWidth;
+        }
+        else if(direction == LEFT){
+            x -= antWidth;
+        }
+        else{
+            y -=antWidth;
+        }
+        
+        /* Ant */
+        ctx.fillStyle="#ff0000";
+        ctx.fillRect(x, y + antWidth, antWidth, antWidth);
+        
+    }, interval)
 
-			function animate() {
-					
-
-				requestAnimationFrame(animate);
-			}
-
-			animate();
-		</script>
-	</body>
-</html>
+ </script>
+ </body>
+ </html>
