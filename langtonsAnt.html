@@ -1,4 +1,4 @@
-<!doctype html> 
+<!DOCTYPE HTML> 
 <html> 
 <head> 
 <title>Langton´s Ant</title> 
@@ -7,7 +7,6 @@
 	    body {
 	    	text-align: center;
 	    }
-
     </style>
 </head> 
 <body> 
@@ -39,7 +38,7 @@
     
     setInterval(function(){
         if(array[x][y] === 0){
-            /* White square, turn 90° right */
+            /* Turn 90° right */
             if(direction == UP){
                 direction = RIGHT;
             }
@@ -54,7 +53,7 @@
             }
         }
         else {
-            /* Coloured square, turn 90° left */
+            /* Turn 90° left */
             if(direction == UP){
                 direction = LEFT;
             }
@@ -92,17 +91,16 @@
             y -=antWidth;
         }
         
-        /* Ant */
         ctx.fillStyle="#F44336";
         ctx.fillRect(x, y + antWidth, antWidth, antWidth);
 
         if(direction == RIGHT){
            	ctx.fillStyle="#B71C1C";
-        	ctx.fillRect(x, y + antWidth, antWidth, antWidth);
+        	ctx.fillRect(x + antWidth, y + antWidth, -antWidth/3, antWidth);
         }
         else if(direction == UP){
             ctx.fillStyle="#B71C1C";
-        	ctx.fillRect(x + antWidth, y, 1, 1);
+        	ctx.fillRect(x + antWidth, y + antWidth, 1, 1);
         }
         else if(direction == LEFT){
            	ctx.fillStyle="#B71C1C";
