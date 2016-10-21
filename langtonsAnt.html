@@ -4,23 +4,24 @@
 <title>Langton´s Ant</title> 
     <meta charset='utf-8' /> 
     <style type="text/css">
-    	#canvas {
-    		border: 1px solid black;
-    	}
+	    body {
+	    	text-align: center;
+	    }
+
     </style>
 </head> 
 <body> 
-	<canvas height='500' width='800' id='canvas'></canvas>
-	<input id="slider" type="range" min="0" max="1000" step="10" />
+	<canvas id='canvas'></canvas>
 <script> 
     var canvas = document.getElementById("canvas");
     ctx = canvas.getContext('2d');
     
-    var width = 800;
-    var height = 500;
+    var width = 1000;
+    var height = 600;
+    canvas.width = width;
+    canvas.height = height;
     
     var array = new Array(width);
-
     for (var i = 0; i < width; i++) {
         array[i] = new Array(width);
     }
@@ -30,16 +31,13 @@
     var UP = "up";
     var DOWN = "down";
     
-    var antWidth = 5;
+    var antWidth = 10;
     var x = width / 2;
     var y = height / 2;
     var interval = 500; //ms
     var direction = UP;
     
     setInterval(function(){
-
-    	interval = document.getElementById('slider').value;
-
         if(array[x][y] === 0){
             /* White square, turn 90° right */
             if(direction == UP){
@@ -70,17 +68,14 @@
                 direction = UP;
             }
         }        
-
         if(array[x][y] === 0){
             ctx.fillStyle = "#2f2f2f";
             ctx.fillRect(x, y + antWidth, antWidth, antWidth);
-
             array[x][y] = 1;
         }
         else{
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(x, y + antWidth, antWidth, antWidth);
-
             array[x][y] = 0;
         }
         
@@ -98,11 +93,27 @@
         }
         
         /* Ant */
-        ctx.fillStyle="#ff0000";
+        ctx.fillStyle="#F44336";
         ctx.fillRect(x, y + antWidth, antWidth, antWidth);
+
+        if(direction == RIGHT){
+           	ctx.fillStyle="#B71C1C";
+        	ctx.fillRect(x, y + antWidth, antWidth, antWidth);
+        }
+        else if(direction == UP){
+            ctx.fillStyle="#B71C1C";
+        	ctx.fillRect(x + antWidth, y, 1, 1);
+        }
+        else if(direction == LEFT){
+           	ctx.fillStyle="#B71C1C";
+        	ctx.fillRect(x, y + antWidth, antWidth/3, antWidth);
+        }
+        else{
+            ctx.fillStyle="#B71C1C";
+        	ctx.fillRect(x, y + antWidth, antWidth, antWidth/3);
+        }        
         
     }, interval)
-
  </script>
  </body>
  </html>
